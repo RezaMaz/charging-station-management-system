@@ -20,6 +20,13 @@ Alternatively you can use the [Spring Boot Maven plugin](https://docs.spring.io/
 ```
 The web application is accessible via localhost:8080
 
+you can also run with Docker and the benefit of it is you don't need JDK17 preinstalled on your system.
+do this instructions:
+```shell
+docker build --tag=csms:latest .
+docker run -d -p 8080:8080 csms:latest
+```
+
 ## Running the testsuite locally
 ```shell
 ./mvnw test
