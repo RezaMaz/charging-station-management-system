@@ -1,5 +1,6 @@
 package com.htb.chargingstationmanagementsystem.service.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,6 +15,7 @@ public class ChargingRateDto {
 
     @Getter
     @Setter
+    @Builder
     public static class Request {
         private Component rate;
         private ChargeDetailRecord cdr;
@@ -21,6 +23,7 @@ public class ChargingRateDto {
 
     @Getter
     @Setter
+    @Builder
     public static class Response {
         private BigDecimal overall;
         private Component components;

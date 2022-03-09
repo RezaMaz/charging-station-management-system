@@ -9,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
@@ -29,23 +28,23 @@ class ChargingRateControllerIntegrationTests {
     void testProcessRate() {
 
         // Arrange
-        Component rate = new Component();
-        rate.setEnergy(new BigDecimal("0.3"));
-        rate.setTime(new BigDecimal(2));
-        rate.setTransaction(new BigDecimal(1));
+        var rate = Component.builder()
+                .energy(new BigDecimal("0.3"))
+                .time(new BigDecimal(2))
+                .transaction(new BigDecimal(1)).build();
 
-        ChargeDetailRecord cdr = new ChargeDetailRecord();
-        cdr.setMeterStart(1204307L);
-        cdr.setTimestampStart(ZonedDateTime.parse("2021-04-05T10:04:00Z"));
-        cdr.setMeterStop(1215230L);
-        cdr.setTimestampStop(ZonedDateTime.parse("2021-04-05T11:27:00Z"));
+        var cdr = ChargeDetailRecord.builder()
+                .meterStart(1204307L)
+                .timestampStart(ZonedDateTime.parse("2021-04-05T10:04:00Z"))
+                .meterStop(1215230L)
+                .timestampStop(ZonedDateTime.parse("2021-04-05T11:27:00Z")).build();
 
-        ChargingRateDto.Request request = new ChargingRateDto.Request();
-        request.setRate(rate);
-        request.setCdr(cdr);
+        var request = ChargingRateDto.Request.builder()
+                .rate(rate)
+                .cdr(cdr).build();
 
         // Act
-        ResponseEntity<ChargingRateDto.Response> responseEntity =
+        var responseEntity =
                 this.restTemplate.postForEntity("http://localhost:" + port + "/rate", request,
                         ChargingRateDto.Response.class);
 
