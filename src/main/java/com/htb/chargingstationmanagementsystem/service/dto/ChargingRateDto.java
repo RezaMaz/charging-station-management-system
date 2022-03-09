@@ -4,6 +4,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Getter
@@ -17,7 +19,11 @@ public class ChargingRateDto {
     @Setter
     @Builder
     public static class Request {
+        @Valid
+        @NotNull(message = "rate is required")
         private Component rate;
+        @Valid
+        @NotNull(message = "cdr is required")
         private ChargeDetailRecord cdr;
     }
 

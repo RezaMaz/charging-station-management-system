@@ -9,6 +9,6 @@ import java.math.BigDecimal;
 public class TransactionCalculator implements ComponentCalculator {
     @Override
     public BigDecimal rate(ChargingRateDto.Request request) {
-        return request.getRate().getTransaction();
+        return request.getRate().getTransaction() == null ? BigDecimal.ZERO : request.getRate().getTransaction();
     }
 }
