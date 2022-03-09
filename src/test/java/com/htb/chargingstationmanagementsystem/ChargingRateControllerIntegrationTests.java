@@ -45,7 +45,7 @@ class ChargingRateControllerIntegrationTests {
 
         // Act
         var responseEntity =
-                this.restTemplate.postForEntity("http://localhost:" + port + "/rate", request,
+                this.restTemplate.postForEntity("http://localhost:" + port + "/v1/rate", request,
                         ChargingRateDto.Response.class);
 
         // Assert
