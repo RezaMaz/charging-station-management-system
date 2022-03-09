@@ -25,11 +25,14 @@ The web application is accessible via localhost:8080
 ./mvnw test
 ```
 
-# Request Sample
+## Request Sample
 - http://localhost:8080/rate (POST Request)
 - body example:
   {
     "rate": { "energy": 0.3, "time": 2, "transaction": 1 },
     "cdr": { "meterStart": 1204307, "timestampStart": "2021-04-05T10:04:00Z", "meterStop": 1215230, "timestampStop": "2021-04-05T11:27:00Z" }
   }
+
+## Swagger Link
+http://localhost:8080/swagger-ui/index.html
  
