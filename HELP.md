@@ -32,6 +32,7 @@ The web application is accessible via localhost:8080
     "rate": { "energy": 0.3, "time": 2, "transaction": 1 },
     "cdr": { "meterStart": 1204307, "timestampStart": "2021-04-05T10:04:00Z", "meterStop": 1215230, "timestampStop": "2021-04-05T11:27:00Z" }
   }
+- Basic Authentication for access resources: username: root, password: root
 
 ## Swagger Link
 http://localhost:8080/swagger-ui/index.html
