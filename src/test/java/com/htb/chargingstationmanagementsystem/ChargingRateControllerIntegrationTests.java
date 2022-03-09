@@ -9,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
@@ -26,27 +25,28 @@ class ChargingRateControllerIntegrationTests {
     private TestRestTemplate restTemplate;
 
     @Test
-    void testProcessRate() {
+    void GivenRateAndCdr_WhenProcessRating_ThenShouldReturnOveralAndComponents() {
 
         // Arrange
-        Component rate = new Component();
-        rate.setEnergy(new BigDecimal("0.3"));
-        rate.setTime(new BigDecimal(2));
-        rate.setTransaction(new BigDecimal(1));
+        var rate = Component.builder()
+                .energy(new BigDecimal("0.3"))
+                .time(new BigDecimal(2))
+                .transaction(new BigDecimal(1)).build();
 
-        ChargeDetailRecord cdr = new ChargeDetailRecord();
-        cdr.setMeterStart(1204307L);
-        cdr.setTimestampStart(ZonedDateTime.parse("2021-04-05T10:04:00Z"));
-        cdr.setMeterStop(1215230L);
-        cdr.setTimestampStop(ZonedDateTime.parse("2021-04-05T11:27:00Z"));
+        var cdr = ChargeDetailRecord.builder()
+                .meterStart(1204307L)
+                .timestampStart(ZonedDateTime.parse("2021-04-05T10:04:00Z"))
+                .meterStop(1215230L)
+                .timestampStop(ZonedDateTime.parse("2021-04-05T11:27:00Z")).build();
 
-        ChargingRateDto.Request request = new ChargingRateDto.Request();
-        request.setRate(rate);
-        request.setCdr(cdr);
+        var request = ChargingRateDto.Request.builder()
+                .rate(rate)
+                .cdr(cdr).build();
 
         // Act
-        ResponseEntity<ChargingRateDto.Response> responseEntity =
-                this.restTemplate.postForEntity("http://localhost:" + port + "/rate", request,
+        var responseEntity =
+                this.restTemplate.withBasicAuth("root", "root").postForEntity("http://localhost:" + port + "/v1/rate"
+                        , request,
                         ChargingRateDto.Response.class);
 
         // Assert
@@ -55,5 +55,31 @@ class ChargingRateControllerIntegrationTests {
         assertEquals(new BigDecimal("2.767"), responseEntity.getBody().getComponents().getTime());
         assertEquals(new BigDecimal("1"), responseEntity.getBody().getComponents().getTransaction());
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    }
+
+    @Test
+    void MissingCdrFields_WhenProcessRating_ThenShouldReturn400() {
+
+        // Arrange
+        var rate = Component.builder()
+                .energy(new BigDecimal("0.3"))
+                .transaction(new BigDecimal(1)).build();
+
+        var cdr = ChargeDetailRecord.builder()
+                .meterStop(1215230L)
+                .timestampStop(ZonedDateTime.parse("2021-04-05T11:27:00Z")).build();
+
+        var request = ChargingRateDto.Request.builder()
+                .rate(rate)
+                .cdr(cdr).build();
+
+        // Act
+        var responseEntity =
+                this.restTemplate.withBasicAuth("root", "root").postForEntity("http://localhost:" + port + "/v1/rate"
+                        , request,
+                        ChargingRateDto.Response.class);
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
     }
 }

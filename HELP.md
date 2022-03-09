@@ -20,16 +20,27 @@ Alternatively you can use the [Spring Boot Maven plugin](https://docs.spring.io/
 ```
 The web application is accessible via localhost:8080
 
+you can also run with Docker and the benefit of it is you don't need JDK17 preinstalled on your system.
+do this instructions:
+```shell
+docker build --tag=csms:latest .
+docker run -d -p 8080:8080 csms:latest
+```
+
 ## Running the testsuite locally
 ```shell
 ./mvnw test
 ```
 
-# Request Sample
+## Request Sample
 - http://localhost:8080/rate (POST Request)
 - body example:
   {
     "rate": { "energy": 0.3, "time": 2, "transaction": 1 },
     "cdr": { "meterStart": 1204307, "timestampStart": "2021-04-05T10:04:00Z", "meterStop": 1215230, "timestampStop": "2021-04-05T11:27:00Z" }
   }
+- Basic Authentication for access resources: username: root, password: root
+
+## Swagger Link
+http://localhost:8080/swagger-ui/index.html
  
