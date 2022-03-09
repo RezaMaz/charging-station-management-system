@@ -9,12 +9,13 @@ import java.math.BigDecimal;
 @Setter
 public class ChargingRateDto {
 
-    private ChargingRateDto() {}
+    private ChargingRateDto() {
+    }
 
     @Getter
     @Setter
     public static class Request {
-        private Component          rate;
+        private Component rate;
         private ChargeDetailRecord cdr;
     }
 
@@ -22,6 +23,6 @@ public class ChargingRateDto {
     @Setter
     public static class Response {
         private BigDecimal overall;
-        private Component  components;
+        private Component components;
     }
 }

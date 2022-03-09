@@ -8,8 +8,8 @@ import java.time.ZonedDateTime;
 @Getter
 @Setter
 public class ChargeDetailRecord {
-    private Long          meterStart;
+    private Long meterStart;
     private ZonedDateTime timestampStart;
-    private Long          meterStop;
+    private Long meterStop;
     private ZonedDateTime timestampStop;
 }
