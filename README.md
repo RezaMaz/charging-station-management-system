@@ -33,7 +33,7 @@ docker run -d -p 8080:8080 csms:latest
 ```
 
 ## Request Sample
-- http://localhost:8080/rate (POST Request)
+- http://localhost:8080/v1/rate (POST Request)
 - body example:
   {
     "rate": { "energy": 0.3, "time": 2, "transaction": 1 },
